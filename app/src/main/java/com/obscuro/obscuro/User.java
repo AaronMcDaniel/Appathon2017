@@ -18,12 +18,14 @@ public class User {
     private String password;
     private String[] obscuros;
     private boolean isAdmin;
+    private String uid;
 
     public User(String username, String email, String password) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.isAdmin = false;
+        this.uid = "NO ID";
 
     }
 
@@ -98,6 +100,13 @@ public class User {
      */
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public void setUid(String uid){
+        this.uid = uid;
+    }
+    public String getUID(){
+        return uid;
     }
 
 }

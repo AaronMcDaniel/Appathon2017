@@ -78,6 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private void writeNewUser(String username, String email, String password) {
         User user = new User(username, email, password);
+        user.setUid(userID);
         dbRef.child("users").child(userID).setValue(user);
     }
 

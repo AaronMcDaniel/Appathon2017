@@ -15,19 +15,21 @@ public class ProfileActivity extends AppCompatActivity {
     Button ping, logout;
     static User currentUser;
     static String currentUID;
+    static TextView forUserFB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        forUserFB = (TextView)findViewById((R.id.loggedInAs));
         tag = (EditText)findViewById(R.id.tagOne);
         loggedInAs = (TextView)findViewById((R.id.loggedInAs));
         logBox = (TextView)findViewById((R.id.logBox));
         ping = (Button)findViewById((R.id.pingButton));
         logout = (Button)findViewById((R.id.logout));
 
-        loggedInAs.setText("Logged in as: "+currentUser.getUsername());
+        loggedInAs.setText("Logged in as: ...");
 
     }
 

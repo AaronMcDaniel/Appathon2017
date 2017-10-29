@@ -40,17 +40,22 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                         if (task.isSuccessful()) {
-                            //RatFB.init();
+                            UserFB.init();
                             String uid = mAuth.getCurrentUser().getUid();
                             ProfileActivity.setCurrentUID(uid);
                             Toast.makeText(getApplicationContext(), "Logging in...", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+                            goToProfile();
+                            //logs in when gets user object from firebase
+                            //startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
                         } else {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
                             Toast.makeText(LoginActivity.this, "Incorrect username or password. Please try again.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+    }
+    public void goToProfile(){
+        startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
     }
 
     public void toRegister(View v){
