@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static com.obscuro.obscuro.ProfileActivity.currentUID;
 import static com.obscuro.obscuro.ProfileActivity.currentUser;
 
 public class UserFB {
@@ -75,7 +76,6 @@ public class UserFB {
             UserFB.setUp();
             Log.d("TEST", "got that info BOIIIII");
             firstCall = false;
-            UserFB.setUp();
         }
         Log.d("TEST", "madeList of size: "+allUsers.length);
 
@@ -85,8 +85,8 @@ public class UserFB {
         String target = ProfileActivity.getCurrentUID();
         Log.d("TEST","target UID: "+target);
         for(int i = 0; i<allUsers.length; i++){
-            Log.d("TEST", ""+allUsers[i].getUID());
             if(allUsers[i].getUID().equals(target)){
+                Log.d("TEST", "Found User: "+allUsers[i].getUID());
                 return allUsers[i];
             }
         }
@@ -101,14 +101,22 @@ public class UserFB {
     }
 
     public static void setUp(){//things to do on the first connection to firebase
+        Log.d("TEST","CALLED SETUP");
         try {
+            currentUser = UserFB.findUserByID(currentUID);
+            Log.d("TEST", "CURRENT USER USERNAME: " + currentUser.getObscuros()[0]);
             ProfileActivity.obscures.setText("Obscuros: ");
+        } catch(Exception e){
+                ProfileActivity.welcome.setText("NO USER FOUND :(");
+            }
+        try{
             for(int j = 0; j< currentUser.getObscuros().length; j++){
                 ProfileActivity.obscures.setText(ProfileActivity.obscures.getText()+"\n"+currentUser.getObscuros()[j]);
             }
             ProfileActivity.welcome.setText("Logged In As: " + currentUser.getUsername());
         }  catch(Exception e){
-            ProfileActivity.welcome.setText("Logged In As: no user :/");
+            e.printStackTrace();
+            ProfileActivity.obscures.setText(" Error :(");
         }
     }
 
