@@ -126,6 +126,11 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     public void onPing(View v){
+        ArrayList matches = Match.findAllMatches();
+        if(matches.size()>0){
+            //notify? or something
+            //notify? or something
+        }
         logBox.setText("" + (lat + lon));
     }
 

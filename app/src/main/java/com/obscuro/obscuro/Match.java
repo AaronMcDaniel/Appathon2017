@@ -1,19 +1,66 @@
 package com.obscuro.obscuro;
 
+import java.util.ArrayList;
+
 /**
  * Created by Jacob on 10/29/2017.
  */
 
 public class Match {
+    User matchedWith;
+    ArrayList<String> tags;
+    ArrayList<Boolean> sames;
+    boolean isCurrent;
 
 
+    public Match(User u, ArrayList<String> tags, ArrayList<Boolean> sames, boolean isCurrent){
+        this.matchedWith = u;
+        this.sames = sames;
+        this.tags = tags;
+        this.isCurrent = isCurrent;
+    }
 
-    public Match(){
+    public static Match isMatch(User u){//returns Match and is null if no match
+        Match ans = null;
+        ArrayList<String> theirs = u.getObscuros();
+        ArrayList<String> mine = ProfileActivity.currentUser.getObscuros();
+        ArrayList<Boolean> sames = new ArrayList<>(theirs.size());
+        boolean any = false;
+        for(int i = 0; i<mine.size(); i++){
+            for(int j = 0; j<theirs.size(); j++){
+                if(mine.get(i).equals(theirs.get(j))) {
+                    sames.set(j, Boolean.TRUE);
+                    any = true;
+                }
+            }
+        }
+        if(any)
+            ans = new Match(u,theirs,sames,true);
+        return ans;
+    }
 
+    public static ArrayList<Match> findAllMatches(){//finds all matches. Gets from updated users.
+        double maxDistance = 0.1;
+        ArrayList<Match> ans = new ArrayList<Match>(0);
+        User[] users = UserFB.getAllUsers();
+        Match temp = null;
+        for(int i = 0; i<users.length; i++){
+            if((temp = Match.isMatch(users[i])) != null){
+                double myLat = ProfileActivity.getCurrentUser().getLat();
+                double myLon = ProfileActivity.getCurrentUser().getLon();
+                double theirLat = users[i].getLat();
+                double theirLon = users[i].getLon();
+                if(distFrom(theirLat,theirLon,myLat,myLon) < maxDistance){
+                    ProfileActivity.currentUser.addMatch(temp);
+                    ans.add(temp);
+                }
+            }
+        }
+        return ans;
     }
 
     public static double distFrom(double lat1, double lng1, double lat2, double lng2) {
-        double earthRadius = 3958.75; // miles (or 6371.0 kilometers)
+        double earthRadius = 6371.0;//(or 3958.75 miles)
         double dLat = Math.toRadians(lat2-lat1);
 
         double dLng = Math.toRadians(lng2-lng1);
@@ -22,11 +69,15 @@ public class Match {
         double a = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)
                 * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        double dist = earthRadius * c;
+        double dist = earthRadius * c;//in meters
 
         return dist;
+    }
+    public void setCurrent(boolean b){
+        isCurrent = b;
     }
     public void sendNotification(){
 
     }
+
 }

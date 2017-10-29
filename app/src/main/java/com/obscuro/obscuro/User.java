@@ -20,6 +20,7 @@ public class User {
     private boolean isAdmin;
     private String uid;
     private double lat, lon;
+    private ArrayList<Match> matches;
 
     public User(){}//defualt constructor for FB stufffffff
 
@@ -32,6 +33,7 @@ public class User {
         lat = 0;
         lon = 0;
         obscuros = new ArrayList<String>();
+        matches = new ArrayList<Match>(0);
     }
 
     /**
@@ -120,5 +122,8 @@ public class User {
     public double getLon(){return lon;}
     public void setObscuros(ArrayList<String> ob){obscuros = ob;}
     public ArrayList<String> getObscuros(){return obscuros;}
+    public void addMatch(Match m){matches.add(m);}
+    public Match getMatch(int i){return matches.get(i);}
+    public void setCurrent(int i, boolean b){matches.get(i).setCurrent(b);}
 
 }
