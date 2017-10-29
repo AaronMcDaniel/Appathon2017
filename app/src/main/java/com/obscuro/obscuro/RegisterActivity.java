@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,14 +25,15 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "Registration";
     private static final String TAG2 = "AddToDatabase";
 
-    EditText username, password, confirmPassword;
+    EditText username, password, confirmPassword, email;
     private String userID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        username = (EditText)findViewById(R.id.register_username_editText);
+        email = (EditText)findViewById(R.id.register_email_editText);
+        username = (EditText)findViewById(R.id.register_email_editText);
         password = (EditText)findViewById(R.id.register_password_editText);
         confirmPassword = (EditText)findViewById(R.id.confirm_password_editText);
         mAuth = FirebaseAuth.getInstance();
@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 userID = user.getUid();
-                                writeNewUser(username.getText().toString(), password.getText().toString(), false);
+                                writeNewUser(username.getText().toString(), email.getText().toString(), password.getText().toString());
                                 Log.d(TAG, TAG2 + "createdUser");
                                 Toast.makeText(RegisterActivity.this, "Registration successful!.",
                                         Toast.LENGTH_SHORT).show();
@@ -75,10 +75,10 @@ public class RegisterActivity extends AppCompatActivity {
      * Creates new User object and saves to Firebase database
      * @param username user's username
      * @param password user's password
-     * @param isAdmin whether or not user is an admin
+     * @param email whether or not user is an admin
      */
-    private void writeNewUser(String username, String password, Boolean isAdmin) {
-        User user = new User(username, password, isAdmin);
+    private void writeNewUser(String username, String email, String password) {
+        User user = new User(username, email, password);
         dbRef.child("users").child(userID).setValue(user);
     }
 

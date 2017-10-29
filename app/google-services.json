@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "444758798285",
+    "firebase_url": "https://obscuro-37625.firebaseio.com",
+    "project_id": "obscuro-37625",
+    "storage_bucket": "obscuro-37625.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444758798285:android:0bf5ad22a3dc57ed",
+        "android_client_info": {
+          "package_name": "com.obscuro.obscuro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "444758798285-9ihj9h7r3g11c6klt261bt3s9rhon7ci.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.obscuro.obscuro",
+            "certificate_hash": "efa88158558140deb150bc20af6984566d819843"
+          }
+        },
+        {
+          "client_id": "444758798285-144mdmfquu3h7cotp0a38da029mf0hvt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtVXP7uPHh_oSIrDEVagmGVQj8jKFXLos"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "444758798285-144mdmfquu3h7cotp0a38da029mf0hvt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
