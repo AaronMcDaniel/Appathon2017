@@ -34,6 +34,15 @@ public class LoginActivity extends AppCompatActivity {
         username = (EditText)findViewById(R.id.username_editText);
         password = (EditText)findViewById(R.id.password_editText);
         mAuth = FirebaseAuth.getInstance();
+        try {
+            String uid = mAuth.getCurrentUser().getUid();
+            DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
+            if (dbRef != null) {
+                autoLogin();
+            }
+        } catch (Exception e){
+            Log.d("TEST", "No autologin");
+        }
 
 
     }
@@ -45,11 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                         if (task.isSuccessful()) {
-                            UserFB.init();
-                            String uid = mAuth.getCurrentUser().getUid();
-                            ProfileActivity.setCurrentUID(uid);
-                            Toast.makeText(getApplicationContext(), "Logging in...", Toast.LENGTH_SHORT).show();
-                            goToProfile();
+                            autoLogin();
                             //logs in when gets user object from firebase
                             //startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
                         } else {
@@ -69,5 +74,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void forgotPassword(View v)  {
         //future implementation
+    }
+
+    public void autoLogin(){
+        UserFB.init();
+        String uid = mAuth.getCurrentUser().getUid();
+        ProfileActivity.setCurrentUID(uid);
+        Toast.makeText(getApplicationContext(), "Logging in...", Toast.LENGTH_SHORT).show();
+        goToProfile();
     }
 }
