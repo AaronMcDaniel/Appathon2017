@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -131,7 +132,47 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     public void onPing(View v){
+        ArrayList matches = updateMatches();
+        if(matches.size()>0){
+            notification(matches.size(), matches);
+        }
+        logBox.setText("" + (lat + lon));
+    }
 
+    public ArrayList<Match> updateMatches(){
+        LinearLayout layout = findViewById(R.id.layout_in_scroll);
+        Button butt;
+        Match temp = new Match();
+        ArrayList<Match> ans =temp.findAllMatches();
+        layout.removeAllViews();
+        for(int i = 0; i<currentUser.getMatches().size(); i++){
+            String name = currentUser.getMatches().get(i).getMatchedWith().getUsername();
+            butt = new Button(this);
+            TextView buttDetails = new TextView(this);
+            butt.setId(i*2);
+            butt.setText(name);
+            butt.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    viewMatch(findViewById(v.getId()));
+                }
+            });
+            buttDetails.setText((i*2)+1);
+            buttDetails.setText(temp.toString());
+            buttDetails.setTextSize(20f);
+            buttDetails.setVisibility(View.GONE);
+            Log.d("TEST", "updateMatches: Added a button");
+            layout.addView(butt);
+            layout.addView(buttDetails);
+        }
+            return ans;
+    }
+
+    public void viewMatch(View v){
+        v = findViewById((((int) v.getId())+1));
+        if (v.getVisibility() == View.GONE)
+            findViewById(v.getId()).setVisibility(View.VISIBLE);
+        else
+            findViewById(v.getId()).setVisibility(View.GONE);
     }
 
     public static void setCurrentUser(User u){
@@ -174,7 +215,6 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
     public void onConnected(Bundle connectionHint) {
         Log.d("Test", "onConnected: Success");
         try {
-
             //mLastLocation = LocationServices.getFusedLocationProviderClient(this).getLastLocation();
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                     mGoogleApiClient);
@@ -238,7 +278,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
             Log.d("Security", "onLocationChanged: Updating one");
         }
 
-        ArrayList matches = new Match().findAllMatches();
+        ArrayList matches = updateMatches();
         if(matches.size()>0){
             notification(matches.size(), matches);
         }
@@ -271,7 +311,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
                         .setContentText("Obscuros: " + matches.get(0).toString());
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, ProfileActivity.class);
-        mBuilder.setVibrate(new long[]{100, 200, 300, 400});
+        mBuilder.setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
         mBuilder.setLights(Color.RED, 3000, 3000);
 // The stack builder object will contain an artificial back stack for the
 // started Activity.

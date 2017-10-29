@@ -27,6 +27,9 @@ public class Match {
 
     public Match isMatch(User u){//returns Match and is null if no match
         Match ans = null;
+        if(u.getUID().equals(ProfileActivity.getCurrentUID())){
+            return ans;
+        }
         ArrayList<String> theirs = u.getObscuros();
         ArrayList<String> mine = ProfileActivity.currentUser.getObscuros();
         ArrayList<Boolean> sames = new ArrayList<>();
@@ -95,6 +98,8 @@ public class Match {
     public ArrayList<Match> findAllMatches(){//finds all matches. Gets from updated users.
         double maxDistance = 100.0;
         ArrayList<Match> ans = new ArrayList<Match>(0);
+        ProfileActivity.currentUser.setMatches(ans);
+        UserFB.updateCurrentUser();
         User[] users = UserFB.getAllUsers();
         Match temp = null;
         for(int i = 0; i<users.length; i++){
@@ -143,12 +148,21 @@ public class Match {
         for(int i = 0; i < sames.size(); i++){
             if(sames.get(i)){
                 sum += tags.get(i);
-                if(i < sames.size() - 1){
-                    sum += " ";
-                }
+                    sum += "\n";
             }
 
         }
+        double myLat = ProfileActivity.getCurrentUser().getLat();
+        double myLon = ProfileActivity.getCurrentUser().getLon();
+        double theirLat = this.getMatchedWith().getLat();
+        double theirLon = this.getMatchedWith().getLon();
+        Location theirs = new Location("");
+        theirs.setLatitude(theirLat);
+        theirs.setLongitude(theirLon);
+        Location mine = new Location("");
+        mine.setLongitude(myLon);
+        mine.setLatitude(myLat);
+        sum+= Match.distFrom(theirs, mine);
         return sum;
     }
 
