@@ -73,7 +73,7 @@ public class Match {
     }
 
     public Boolean getIsCurrent(){
-        return getIsCurrent();
+        return isCurrent;
     }
 
     public void setIsCurrent(Boolean isCurrent){
@@ -95,8 +95,9 @@ public class Match {
                 if(distFrom(theirLat,theirLon,myLat,myLon) < maxDistance){
                     ProfileActivity.currentUser.addMatch(temp);
                     ans.add(temp);
+
                 } else{
-                    temp.sames.set(i, Boolean.FALSE);
+                    //temp.sames.set(i, Boolean.FALSE);
                 }
             }
         }
