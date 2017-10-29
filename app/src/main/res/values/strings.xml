@@ -50,4 +50,6 @@
     <string name="starting_year">Starting Year</string>
     <string name="end_year">End Year</string>
     <string name="end_month">End Month</string>
+    <string name="tag">TAG</string>
+    <string name="ping">Ping</string>
 </resources>
