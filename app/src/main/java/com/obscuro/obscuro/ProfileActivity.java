@@ -202,9 +202,10 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
 
     @Override
     public void onLocationChanged(Location location){
+        location.setAccuracy(0.1f);
+        Log.d("check", "onLocationChanged: " + location.getAccuracy());
         try {
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                    mGoogleApiClient);
+            mLastLocation = location;
             if (mLastLocation != null) {
                 lat = mLastLocation.getLatitude();
                 lon = mLastLocation.getLongitude();
@@ -216,6 +217,9 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
                     Log.d("userLatLong", "onLocationChanged: ");
                 }
                 Log.d("Test", "onUpdate: " + lat + lon);
+            }
+            else{
+                Log.d("TEST", "onLocationChanged: NULLER");
             }
         }catch (SecurityException se){
             Log.d("Security", "onLocationChanged: Updating one");
