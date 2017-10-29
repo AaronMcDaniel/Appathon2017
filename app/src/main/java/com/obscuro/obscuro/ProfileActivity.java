@@ -13,6 +13,8 @@ public class ProfileActivity extends AppCompatActivity {
     EditText tag;
     TextView loggedInAs, logBox;
     Button ping, logout;
+    static User currentUser;
+    static String currentUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,8 @@ public class ProfileActivity extends AppCompatActivity {
         ping = (Button)findViewById((R.id.pingButton));
         logout = (Button)findViewById((R.id.logout));
 
+        loggedInAs.setText("Logged in as: "+currentUser.getUsername());
+
     }
 
     public void onLogout(View v){
@@ -33,5 +37,20 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void onPing(View v){
 
+    }
+
+    public static void setCurrentUser(User u){
+        currentUser = u;
+    }
+
+    public static User getCurrentUser(){
+        return currentUser;
+    }
+
+    public static void setCurrentUID(String uid){
+        currentUID = uid;
+    }
+    public static String getCurrentUID(){
+        return currentUID;
     }
 }
