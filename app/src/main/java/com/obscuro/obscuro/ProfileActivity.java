@@ -46,7 +46,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
     Location mLastLocation;
     private LocationRequest mLocationRequest;
     double lat, lon;
-    private long FASTEST_INTERVAL = 2000; /* 2 sec */
+    private long FASTEST_INTERVAL = 10; /* 2 sec */
 
 
     @Override
@@ -186,6 +186,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
         mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        mLocationRequest.setInterval(FASTEST_INTERVAL);
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(mLocationRequest);
         LocationSettingsRequest locationSettingsRequest = builder.build();
