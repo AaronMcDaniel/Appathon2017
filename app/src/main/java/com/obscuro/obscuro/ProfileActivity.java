@@ -71,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     public void onPing(View v){
-
+        logBox.setText("" + (lat + lon));
     }
 
     public static void setCurrentUser(User u){
@@ -90,6 +90,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     protected void onStart() {
+        Log.d("Test", "onStart: HELLO");
         mGoogleApiClient.connect();
         super.onStart();
     }
@@ -104,12 +105,13 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
         // An unresolvable error has occurred and a connection to Google APIs
         // could not be established. Display an error message, or handle
         // the failure silently
-
+        Log.d("CF", "onConnectionFailed: CONNECTION FAILED");
         // ...
     }
 
 
     public void onConnected(Bundle connectionHint) {
+        Log.d("Test", "onConnected: Success");
         try {
             //mLastLocation = LocationServices.getFusedLocationProviderClient(this).getLastLocation();
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
@@ -118,10 +120,11 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
 
                 lat = mLastLocation.getLatitude();
                 lon = mLastLocation.getLongitude();
+                Log.d("Test", "onConnected: " + lat + lon);
 
             }
         }catch (SecurityException se){
-            Log.d("Ni", "onConnected: No Permission");
+            Log.d("Test", "onConnected: No Permission");
         }
     }
 
