@@ -1,3 +1,53 @@
 <resources>
     <string name="app_name">Obscuro</string>
+
+    <string name="button_confirm_password">Confirm Password</string>
+    <string name="button_forgot_password">Forgot your password?</string>
+    <string name="button_login">Login</string>
+    <string name="button_logout">Logout</string>
+    <string name="button_send">Send</string>
+    <string name="button_register">Register</string>
+    <string name="logged_in">You Logged In</string>
+    <string name="logo">Logo</string>
+    <string name="pass_word">Password</string>
+    <string name="user_name">Username</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="text_welcome">Welcome</string>
+    <string name="email_address">Email Address</string>
+    <string name="rat_sightings">Rat Sightings</string>
+    <string name="back">Go Back</string>
+    <string name="button_submit">Submit</string>
+    <string name="spinner_location">Location Type</string>
+    <string name="text_name_of_rat">Name of Rat</string>
+    <string name="text_incident">Incident Address</string>
+    <string name="text_incident_zip">Incident Zipcode</string>
+    <string name="text_incident_city">Incident City</string>
+    <string name="spinner_borough">Borough</string>
+
+    <string-array name="location_types">
+        <item>Family Dwelling</item>
+        <item>Family Apartment Building</item>
+        <item>Family Mixed Building</item>
+        <item>Commercial Building</item>
+        <item>Vacant Lot</item>
+        <item>Construction Site</item>
+        <item>Hospital</item>
+        <item>Catch Basin/Sewer</item>
+    </string-array>
+
+    <string-array name="boroughs">
+        <item>Manhattan</item>
+        <item>Staten Island</item>
+        <item>Queens</item>
+        <item>Brooklyn</item>
+        <item>Bronx</item>
+    </string-array>
+    <string name="title_activity_maps">Map</string>
+    <string name="ratdata">Rat Data</string>
+    <string name="year">Year</string>
+        <string name="graph_range">Graph Date Range</string>
+    <string name="starting_month">Starting Month</string>
+    <string name="starting_year">Starting Year</string>
+    <string name="end_year">End Year</string>
+    <string name="end_month">End Month</string>
 </resources>
