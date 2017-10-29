@@ -27,7 +27,6 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG2 = "AddToDatabase";
 
     EditText username, password, confirmPassword;
-    Switch isAdmin;
     private String userID;
 
     @Override
@@ -38,7 +37,6 @@ public class RegisterActivity extends AppCompatActivity {
         password = (EditText)findViewById(R.id.register_password_editText);
         confirmPassword = (EditText)findViewById(R.id.confirm_password_editText);
         mAuth = FirebaseAuth.getInstance();
-        isAdmin = (Switch)findViewById(R.id.isAdmin_switch);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         dbRef = mFirebaseDatabase.getReference();
     }
@@ -57,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 userID = user.getUid();
-                                writeNewUser(username.getText().toString(), password.getText().toString(), isAdmin.isChecked());
+                                writeNewUser(username.getText().toString(), password.getText().toString(), false);
                                 Log.d(TAG, TAG2 + "createdUser");
                                 Toast.makeText(RegisterActivity.this, "Registration successful!.",
                                         Toast.LENGTH_SHORT).show();
