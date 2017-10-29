@@ -32,21 +32,28 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View v) {
-        mAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-                        if (task.isSuccessful()) {
-                            //RatFB.init();
-                            Toast.makeText(getApplicationContext(), "Logging in...", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
-                        } else {
-                            Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            Toast.makeText(LoginActivity.this, "Incorrect username or password. Please try again.", Toast.LENGTH_SHORT).show();
+        try {
+            Log.d(TAG, "login: Attempt");
+            mAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                            if (task.isSuccessful()) {
+                                //RatFB.init();
+                                Toast.makeText(getApplicationContext(), "Successfully logged in!", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+                            } else {
+                                Log.w(TAG, "signInWithEmail:failed", task.getException());
+                                Toast.makeText(LoginActivity.this, "Incorrect username or password. Please try again.", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+        }catch(IllegalArgumentException e){
+            Log.d(TAG, "login: Empty fields");
+            Toast.makeText(LoginActivity.this, "Fields are empty.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void toRegister(View v){
