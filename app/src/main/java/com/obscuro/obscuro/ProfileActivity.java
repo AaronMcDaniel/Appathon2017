@@ -31,6 +31,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 
 public class ProfileActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
@@ -81,14 +83,16 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
         EditText tagOne = findViewById(R.id.tagOne);
         obscures = findViewById(R.id.obscuros_textview);
         if(tagOne.isEnabled()) {//alternate between submit and edit button
-            String[] obs = new String[]{tagOne.getText().toString()};
+            ArrayList<String> obs = new ArrayList<String>();
+            obs.add(tagOne.getText().toString());
             currentUser.setObscuros(obs);
             obscures.setText("Obscuros: ");
-            for(int i = 0; i< obs.length;i++){
-                obscures.setText(obscures.getText()+"\n"+obs[i]);
+            for(int i = 0; i< obs.size();i++){
+                obscures.setText(obscures.getText()+"\n"+obs.get(i));
             }
             tagOne.setEnabled(false);
             ((Button)findViewById(R.id.edit_button)).setText("Edit");
+            UserFB.updateCurrentUser();
         } else{
             tagOne.setEnabled(true);
             tagOne.setSelection(tagOne.getText().length());

@@ -16,7 +16,7 @@ public class User {
     private String email;
     private String username;
     private String password;
-    private String[] obscuros;
+    private ArrayList<String> obscuros;
     private boolean isAdmin;
     private String uid;
     private double lat, lon;
@@ -31,7 +31,7 @@ public class User {
         this.uid = "NO ID";
         lat = 0;
         lon = 0;
-        obscuros = new String[0];
+        obscuros = new ArrayList<String>();
     }
 
     /**
@@ -118,7 +118,7 @@ public class User {
     public double getLat(){return lon;}
     public void setLon(double lo){this.lon=lo;}
     public double getLon(){return lon;}
-    public void setObscuros(String[] ob){obscuros = ob;}
-    public String[] getObscuros(){return obscuros;}
+    public void setObscuros(ArrayList<String> ob){obscuros = ob;}
+    public ArrayList<String> getObscuros(){return obscuros;}
 
 }

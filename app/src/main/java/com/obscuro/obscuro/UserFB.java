@@ -18,6 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.obscuro.obscuro.ProfileActivity.currentUID;
 import static com.obscuro.obscuro.ProfileActivity.currentUser;
+import static com.obscuro.obscuro.ProfileActivity.welcome;
 
 public class UserFB {
     private static FirebaseDatabase fbDB;
@@ -104,19 +105,20 @@ public class UserFB {
         Log.d("TEST","CALLED SETUP");
         try {
             currentUser = UserFB.findUserByID(currentUID);
-            Log.d("TEST", "CURRENT USER USERNAME: " + currentUser.getObscuros()[0]);
             ProfileActivity.obscures.setText("Obscuros: ");
+            welcome.setText("Logged in as: "+ currentUser.getUsername());
         } catch(Exception e){
                 ProfileActivity.welcome.setText("NO USER FOUND :(");
             }
         try{
-            for(int j = 0; j< currentUser.getObscuros().length; j++){
-                ProfileActivity.obscures.setText(ProfileActivity.obscures.getText()+"\n"+currentUser.getObscuros()[j]);
+            Log.d("TEST", "CURRENT USER USERNAME: " + currentUser.getObscuros().size());
+            for(int j = 0; j< currentUser.getObscuros().size(); j++){
+                ProfileActivity.obscures.setText(ProfileActivity.obscures.getText()+"\n"+currentUser.getObscuros().get(j));
             }
             ProfileActivity.welcome.setText("Logged In As: " + currentUser.getUsername());
         }  catch(Exception e){
             e.printStackTrace();
-            ProfileActivity.obscures.setText(" Error :(");
+            ProfileActivity.obscures.setText("Obscuros: ");
         }
     }
 
