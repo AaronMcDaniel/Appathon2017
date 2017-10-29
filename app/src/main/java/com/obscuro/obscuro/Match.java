@@ -41,6 +41,7 @@ public class Match {
             }
         }
         this.sames =sames;
+        Log.d("TEST", "isMatch: sames.length: "+sames.size());
         if(any)
             ans = new Match(u,theirs,sames,true);
         return ans;
