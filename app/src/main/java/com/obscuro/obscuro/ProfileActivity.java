@@ -53,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
     Location mLastLocation;
     private LocationRequest mLocationRequest;
     double lat, lon;
-    private long FASTEST_INTERVAL = 10; /* 2 sec */
+    private long FASTEST_INTERVAL = 1000; /* 2 sec */
 
 
     @Override
@@ -268,7 +268,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
                 new NotificationCompat.Builder(this, CHANNEL_ID)
                         .setSmallIcon(R.drawable.cast_ic_notification_0)
                         .setContentTitle("You got " + numberMatches + " hit/s with " + matches.get(0).matchedWith.getUsername() + "!")
-                        .setContentText("Obscuros: " + matches.get(0).toString() + " " + matches.get(0).getDistance());
+                        .setContentText("Obscuros: " + matches.get(0).toString());
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, ProfileActivity.class);
         mBuilder.setVibrate(new long[]{100, 200, 300, 400});

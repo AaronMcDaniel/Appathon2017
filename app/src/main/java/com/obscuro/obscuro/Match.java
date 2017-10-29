@@ -31,14 +31,23 @@ public class Match {
         ArrayList<String> mine = ProfileActivity.currentUser.getObscuros();
         ArrayList<Boolean> sames = new ArrayList<>();
         boolean any = false;
-        for(int i = 0; i<mine.size(); i++){
-            for(int j = 0; j<theirs.size(); j++){
-                Log.d("Test", "isMatch: sames.size = "+sames.size());
-                if(mine.get(i).equals(theirs.get(j)) && !u.getUID().equals(ProfileActivity.currentUser.getUID())) {
-                    sames.add(Boolean.TRUE);
-                    any = true;
-                } else{
-                    sames.add(Boolean.FALSE);
+        boolean previousMatch = false;
+        for(int k = 0; ProfileActivity.currentUser.getMatches() != null && k < ProfileActivity.currentUser.getMatches().size(); k++){
+            if(ProfileActivity.currentUser.getMatches().get(k).matchedWith.getUID().equals(u.getUID())){
+                previousMatch = true;
+            }
+        }
+        if(!previousMatch) {
+            for (int i = 0; i < mine.size(); i++) {
+                for (int j = 0; j < theirs.size(); j++) {
+                    Log.d("Test", "isMatch: sames.size = " + sames.size());
+
+                    if (mine.get(i).equals(theirs.get(j)) && !u.getUID().equals(ProfileActivity.currentUser.getUID())) {
+                        sames.add(Boolean.TRUE);
+                        any = true;
+                    } else {
+                        sames.add(Boolean.FALSE);
+                    }
                 }
             }
         }
@@ -89,7 +98,7 @@ public class Match {
         User[] users = UserFB.getAllUsers();
         Match temp = null;
         for(int i = 0; i<users.length; i++){
-            if((temp = isMatch(users[i])) != null){
+            if((temp = isMatch(users[i])) != null ){
                 double myLat = ProfileActivity.getCurrentUser().getLat();
                 double myLon = ProfileActivity.getCurrentUser().getLon();
                 double theirLat = users[i].getLat();
