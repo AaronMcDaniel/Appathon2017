@@ -40,17 +40,17 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             //RatFB.init();
                             Toast.makeText(getApplicationContext(), "Logging in...", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(Login_Activity.this, ProfileActivity.class));
+                            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
                         } else {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            Toast.makeText(Login_Activity.this, "Incorrect username or password. Please try again.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Incorrect username or password. Please try again.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
     public void toRegister(View v){
-        startActivity(new Intent(Login_Activity.this, Register_Activity.class));
+        startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
     }
 
     public void forgotPassword(View v)  {
