@@ -1,11 +1,17 @@
 package com.obscuro.obscuro;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -66,7 +72,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
         loggedInAs.setText("Logged in as: No oNe");
 
 
-
+        notification();
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -240,5 +246,42 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
 
     public void onProviderDisabled(String s) {
 
+    }
+
+    private void notification(){
+        Log.d("test", "notification: ");
+        // The id of the channel.
+        String CHANNEL_ID = "my_channel_01";
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this, CHANNEL_ID)
+                        .setSmallIcon(R.drawable.cast_ic_notification_0)
+                        .setContentTitle("You got a hit!")
+                        .setContentText("Obscuro");
+// Creates an explicit intent for an Activity in your app
+        Intent resultIntent = new Intent(this, ProfileActivity.class);
+        mBuilder.setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+        mBuilder.setLights(Color.RED, 3000, 3000);
+// The stack builder object will contain an artificial back stack for the
+// started Activity.
+// This ensures that navigating backward from the Activity leads out of
+// your app to the Home screen.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+// Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(ProfileActivity.class);
+// Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+// mNotificationId is a unique integer your app uses to identify the
+// notification. For example, to cancel the notification, you can pass its ID
+// number to NotificationManager.cancel().
+        mNotificationManager.notify(3456, mBuilder.build());
     }
 }
