@@ -99,10 +99,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/email_address"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="159dp" />
+        app:layout_constraintTop_toBottomOf="@+id/register_username_editText" />
 
 
     <TextView
@@ -144,14 +145,11 @@
         android:id="@+id/register_username_editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
 
 </android.support.constraint.ConstraintLayout>

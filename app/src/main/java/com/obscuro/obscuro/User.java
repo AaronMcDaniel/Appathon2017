@@ -20,6 +20,8 @@ public class User {
     private boolean isAdmin;
     private String uid;
 
+    public User(){}//defualt constructor for FB stufffffff
+
     public User(String username, String email, String password) {
         this.username = username;
         this.password = password;
