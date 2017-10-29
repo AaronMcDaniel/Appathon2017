@@ -4,11 +4,11 @@ package com.obscuro.obscuro;
  * Created by Jacob on 10/29/2017.
  */
 
-public class Matches {
+public class Match {
 
 
 
-    public Matches(){
+    public Match(){
 
     }
 
@@ -25,5 +25,8 @@ public class Matches {
         double dist = earthRadius * c;
 
         return dist;
+    }
+    public void sendNotification(){
+
     }
 }
