@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
+import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +19,12 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.drive.Drive;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,7 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-public class ProfileActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class ProfileActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
     EditText tag;
     TextView loggedInAs, logBox;
@@ -36,7 +42,10 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
     static TextView forUserFB;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
+    private LocationRequest mLocationRequest;
     double lat, lon;
+    private long FASTEST_INTERVAL = 2000; /* 2 sec */
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,12 +140,11 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                     mGoogleApiClient);
             if (mLastLocation != null) {
-
                 lat = mLastLocation.getLatitude();
                 lon = mLastLocation.getLongitude();
                 Log.d("Test", "onConnected: " + lat + lon);
-
             }
+            startLocationUpdates();
         }catch (SecurityException se){
             Log.d("Test", "onConnected: No Permission");
         }
@@ -144,6 +152,54 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
 
     @Override
     public void onConnectionSuspended(int i) {
+
+    }
+
+    protected void startLocationUpdates() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(mLocationRequest);
+        LocationSettingsRequest locationSettingsRequest = builder.build();
+        SettingsClient settingsClient = LocationServices.getSettingsClient(this);
+        settingsClient.checkLocationSettings(locationSettingsRequest);
+        try {
+            LocationServices.FusedLocationApi.requestLocationUpdates(
+                    mGoogleApiClient, mLocationRequest, this);
+        }catch(SecurityException se){
+            Log.d("Security", "startLocationUpdates: " + se);
+        }
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location){
+        try {
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                    mGoogleApiClient);
+            if (mLastLocation != null) {
+                lat = mLastLocation.getLatitude();
+                lon = mLastLocation.getLongitude();
+                Log.d("Test", "onUpdate: " + lat + lon);
+            }
+        }catch (SecurityException se){
+            Log.d("Security", "onLocationChanged: Updating one");;
+        }
+    }
+
+
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+
+    public void onProviderEnabled(String s) {
+
+    }
+
+
+    public void onProviderDisabled(String s) {
 
     }
 }
