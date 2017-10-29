@@ -48,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
      */
     public void register(View v) {
         if (verifyUsernameLength() && verifyPasswordLength() && verifyConfirmPassword()) {
+            Log.d(TAG, "register: Attempt");
             mAuth.createUserWithEmailAndPassword(username.getText().toString(), password.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -66,8 +67,6 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         }
                     });
-        } else {
-            Toast.makeText(getApplicationContext(), "Registration unsuccessful. Please try again.", Toast.LENGTH_SHORT).show();
         }
     }
 
