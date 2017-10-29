@@ -19,6 +19,7 @@ public class User {
     private String[] obscuros;
     private boolean isAdmin;
     private String uid;
+    private double lat, lon;
 
     public User(){}//defualt constructor for FB stufffffff
 
@@ -28,7 +29,9 @@ public class User {
         this.email = email;
         this.isAdmin = false;
         this.uid = "NO ID";
-
+        lat = 0;
+        lon = 0;
+        obscuros = new String[0];
     }
 
     /**
@@ -110,5 +113,12 @@ public class User {
     public String getUID(){
         return uid;
     }
+
+    public void setLat(double la){this.lat=la;}
+    public double getLat(){return lon;}
+    public void setLon(double lo){this.lon=lo;}
+    public double getLon(){return lon;}
+    public void setObscuros(String[] ob){obscuros = ob;}
+    public String[] getObscuros(){return obscuros;}
 
 }

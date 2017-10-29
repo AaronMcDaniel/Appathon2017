@@ -35,11 +35,11 @@ import com.google.firebase.database.FirebaseDatabase;
 public class ProfileActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
     EditText tag;
-    TextView loggedInAs, logBox;
+    TextView loggedInAs, logBox;//, obscures;
     Button ping, logout;
     static User currentUser;
     static String currentUID;
-    static TextView forUserFB;
+    static TextView welcome, obscures;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     private LocationRequest mLocationRequest;
@@ -52,8 +52,8 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        forUserFB = (TextView)findViewById((R.id.loggedInAs));
-
+        welcome = (TextView)findViewById((R.id.loggedInAs));
+        obscures = (TextView)findViewById(R.id.obscuros_textview);
 
         tag = (EditText)findViewById(R.id.tagOne);
         loggedInAs = (TextView)findViewById((R.id.loggedInAs));
@@ -75,6 +75,27 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
 
         }
 
+    }
+
+    public void onSubmit(View v){
+        EditText tagOne = findViewById(R.id.tagOne);
+        obscures = findViewById(R.id.obscuros_textview);
+        if(tagOne.isEnabled()) {//alternate between submit and edit button
+            String[] obs = new String[]{tagOne.getText().toString()};
+            currentUser.setObscuros(obs);
+            obscures.setText("Obscuros: ");
+            for(int i = 0; i< obs.length;i++){
+                obscures.setText(obscures.getText()+"\n"+obs[i]);
+            }
+            tagOne.setEnabled(false);
+            ((Button)findViewById(R.id.edit_button)).setText("Edit");
+        } else{
+            tagOne.setEnabled(true);
+            tagOne.setSelection(tagOne.getText().length());
+            ((Button)findViewById(R.id.edit_button)).setText("Submit");
+
+
+        }
     }
 
     @Override
@@ -131,6 +152,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
         Log.d("CF", "onConnectionFailed: CONNECTION FAILED");
         // ...
     }
+
 
 
     public void onConnected(Bundle connectionHint) {

@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static com.obscuro.obscuro.ProfileActivity.currentUser;
+
 public class UserFB {
     private static FirebaseDatabase fbDB;
     private static DatabaseReference dbRef;
@@ -26,7 +28,7 @@ public class UserFB {
     public static void init(){
         Log.d("TEST", "Called constructor for UserFB");
         fbDB = FirebaseDatabase.getInstance();
-        dbRef = fbDB.getReference();
+        dbRef = fbDB.getReference().child("users");
         masterMap = new HashMap<String, Object>();
         allUsers = new User[0];
         firstCall = true;
@@ -70,14 +72,10 @@ public class UserFB {
         Log.d("TEST", "Total Users: "+users.length);
 
         if (firstCall) {//sets current user when first makes connection
-            ProfileActivity.setCurrentUser(UserFB.findUserByID(ProfileActivity.currentUID));
+            UserFB.setUp();
             Log.d("TEST", "got that info BOIIIII");
             firstCall = false;
-            try {
-                ProfileActivity.forUserFB.setText("Logged In As: " + ProfileActivity.currentUser.getUsername());
-            }  catch(Exception e){
-                ProfileActivity.forUserFB.setText("Logged In As: no user :/");
-            }
+            UserFB.setUp();
         }
         Log.d("TEST", "madeList of size: "+allUsers.length);
 
@@ -94,6 +92,24 @@ public class UserFB {
         }
         Log.d("TEST", "USER NOT FOUND");
         return null;
+    }
+
+    public static void updateCurrentUser(){
+        Map<String, Object> current = new HashMap<String, Object>();
+        current.put(ProfileActivity.currentUID, currentUser);
+        dbRef.updateChildren(current);
+    }
+
+    public static void setUp(){//things to do on the first connection to firebase
+        try {
+            ProfileActivity.obscures.setText("Obscuros: ");
+            for(int j = 0; j< currentUser.getObscuros().length; j++){
+                ProfileActivity.obscures.setText(ProfileActivity.obscures.getText()+"\n"+currentUser.getObscuros()[j]);
+            }
+            ProfileActivity.welcome.setText("Logged In As: " + currentUser.getUsername());
+        }  catch(Exception e){
+            ProfileActivity.welcome.setText("Logged In As: no user :/");
+        }
     }
 
     public static void setAllUsers(User[] users){
