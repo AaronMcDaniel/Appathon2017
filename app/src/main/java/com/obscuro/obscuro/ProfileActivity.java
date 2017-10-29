@@ -131,11 +131,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     public void onPing(View v){
-        ArrayList matches = new Match().findAllMatches();
-        if(matches.size()>0){
-            notification(matches.size(), matches);
-        }
-        logBox.setText("" + (lat + lon));
+
     }
 
     public static void setCurrentUser(User u){
@@ -178,6 +174,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
     public void onConnected(Bundle connectionHint) {
         Log.d("Test", "onConnected: Success");
         try {
+
             //mLastLocation = LocationServices.getFusedLocationProviderClient(this).getLastLocation();
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                     mGoogleApiClient);
@@ -240,6 +237,12 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
         }catch (SecurityException se){
             Log.d("Security", "onLocationChanged: Updating one");
         }
+
+        ArrayList matches = new Match().findAllMatches();
+        if(matches.size()>0){
+            notification(matches.size(), matches);
+        }
+        logBox.setText("" + (lat + lon));
     }
 
 
@@ -265,10 +268,10 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
                 new NotificationCompat.Builder(this, CHANNEL_ID)
                         .setSmallIcon(R.drawable.cast_ic_notification_0)
                         .setContentTitle("You got " + numberMatches + " hit/s with " + matches.get(0).matchedWith.getUsername() + "!")
-                        .setContentText("Obscuros: " + matches.get(0).toString());
+                        .setContentText("Obscuros: " + matches.get(0).toString() + " " + matches.get(0).getDistance());
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, ProfileActivity.class);
-        mBuilder.setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+        mBuilder.setVibrate(new long[]{100, 200, 300, 400});
         mBuilder.setLights(Color.RED, 3000, 3000);
 // The stack builder object will contain an artificial back stack for the
 // started Activity.

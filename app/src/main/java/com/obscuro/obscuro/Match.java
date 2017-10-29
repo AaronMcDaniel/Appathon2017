@@ -1,5 +1,6 @@
 package com.obscuro.obscuro;
 
+import android.location.Location;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class Match {
     ArrayList<String> tags;
     ArrayList<Boolean> sames;
     boolean isCurrent;
+    double distance;
 
     public Match(){}
 
@@ -82,7 +84,7 @@ public class Match {
 
 
     public ArrayList<Match> findAllMatches(){//finds all matches. Gets from updated users.
-        double maxDistance = 0.1;
+        double maxDistance = 100.0;
         ArrayList<Match> ans = new ArrayList<Match>(0);
         User[] users = UserFB.getAllUsers();
         Match temp = null;
@@ -92,7 +94,16 @@ public class Match {
                 double myLon = ProfileActivity.getCurrentUser().getLon();
                 double theirLat = users[i].getLat();
                 double theirLon = users[i].getLon();
-                if(distFrom(theirLat,theirLon,myLat,myLon) < maxDistance){
+                Location here = new Location("");
+                here.setLatitude(myLat);
+                here.setLongitude(myLon);
+                Location there = new Location("");
+                there.setLatitude(theirLat);
+                there.setLongitude(theirLon);
+                Log.d("position", "findAllMatches: " + myLat + " " + myLon + " " + theirLat + " " + theirLon);
+                distance = distFrom(here, there);
+                Log.d("position", "findAllMatches: " + distance);
+                if(distance < maxDistance){
                     ProfileActivity.currentUser.addMatch(temp);
                     ans.add(temp);
 
@@ -104,19 +115,12 @@ public class Match {
         return ans;
     }
 
-    public static double distFrom(double lat1, double lng1, double lat2, double lng2) {
-        double earthRadius = 6371.0;//(or 3958.75 miles)
-        double dLat = Math.toRadians(lat2-lat1);
+    public double getDistance(){
+        return distance;
+    }
 
-        double dLng = Math.toRadians(lng2-lng1);
-        double sindLat = Math.sin(dLat / 2);
-        double sindLng = Math.sin(dLng / 2);
-        double a = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)
-                * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        double dist = earthRadius * c;//in meters
-
-        return dist;
+    public static double distFrom(Location here, Location there) {
+        return here.distanceTo(there);
     }
     public void setCurrent(boolean b){
         isCurrent = b;
