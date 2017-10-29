@@ -32,7 +32,7 @@ public class Match {
         for(int i = 0; i<mine.size(); i++){
             for(int j = 0; j<theirs.size(); j++){
                 Log.d("Test", "isMatch: sames.size = "+sames.size());
-                if(mine.get(i).equals(theirs.get(j))) {
+                if(mine.get(i).equals(theirs.get(j)) && !u.equals(ProfileActivity.currentUser)) {
                     sames.add(Boolean.TRUE);
                     any = true;
                 } else{
@@ -43,6 +43,7 @@ public class Match {
         this.sames =sames;
         Log.d("TEST", "isMatch: sames.length: "+sames.size());
         if(any)
+            //Log.d(TEST, "isMatch: Mine-> "mine.get(0));
             ans = new Match(u,theirs,sames,true);
         return ans;
     }
