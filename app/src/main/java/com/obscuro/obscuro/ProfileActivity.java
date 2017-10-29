@@ -264,7 +264,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this, CHANNEL_ID)
                         .setSmallIcon(R.drawable.cast_ic_notification_0)
-                        .setContentTitle("You got " + numberMatches + " hit/s!")
+                        .setContentTitle("You got " + numberMatches + " hit/s with " + matches.get(0).matchedWith.getUsername() + "!")
                         .setContentText("Obscuros: " + matches.get(0).toString());
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, ProfileActivity.class);

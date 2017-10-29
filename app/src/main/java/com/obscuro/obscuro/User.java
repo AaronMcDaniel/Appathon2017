@@ -109,6 +109,14 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
+    public ArrayList<Match> getMatches(){
+        return matches;
+    }
+
+    public void setMatches(ArrayList<Match> matches){
+        this.matches = matches;
+    }
+
     public void setUid(String uid){
         this.uid = uid;
     }
