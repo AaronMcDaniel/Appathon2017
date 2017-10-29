@@ -122,7 +122,15 @@ public class User {
     public double getLon(){return lon;}
     public void setObscuros(ArrayList<String> ob){obscuros = ob;}
     public ArrayList<String> getObscuros(){return obscuros;}
-    public void addMatch(Match m){matches.add(m);}
+    public void addMatch(Match m){
+        try {
+            matches.add(m);
+        } catch(Exception e){
+            matches = new ArrayList<Match>();
+            matches.add(m);
+        }
+
+    }
     public Match getMatch(int i){return matches.get(i);}
     public void setCurrent(int i, boolean b){matches.get(i).setCurrent(b);}
 

@@ -1,5 +1,7 @@
 package com.obscuro.obscuro;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -12,6 +14,7 @@ public class Match {
     ArrayList<Boolean> sames;
     boolean isCurrent;
 
+    public Match(){}
 
     public Match(User u, ArrayList<String> tags, ArrayList<Boolean> sames, boolean isCurrent){
         this.matchedWith = u;
@@ -20,20 +23,24 @@ public class Match {
         this.isCurrent = isCurrent;
     }
 
-    public static Match isMatch(User u){//returns Match and is null if no match
+    public Match isMatch(User u){//returns Match and is null if no match
         Match ans = null;
         ArrayList<String> theirs = u.getObscuros();
         ArrayList<String> mine = ProfileActivity.currentUser.getObscuros();
-        ArrayList<Boolean> sames = new ArrayList<>(theirs.size());
+        ArrayList<Boolean> sames = new ArrayList<>();
         boolean any = false;
         for(int i = 0; i<mine.size(); i++){
             for(int j = 0; j<theirs.size(); j++){
+                Log.d("Test", "isMatch: sames.size = "+sames.size());
                 if(mine.get(i).equals(theirs.get(j))) {
-                    sames.set(j, Boolean.TRUE);
+                    sames.add(Boolean.TRUE);
                     any = true;
+                } else{
+                    sames.add(Boolean.FALSE);
                 }
             }
         }
+        this.sames =sames;
         if(any)
             ans = new Match(u,theirs,sames,true);
         return ans;
@@ -72,13 +79,13 @@ public class Match {
     }
 
 
-    public static ArrayList<Match> findAllMatches(){//finds all matches. Gets from updated users.
+    public ArrayList<Match> findAllMatches(){//finds all matches. Gets from updated users.
         double maxDistance = 0.1;
         ArrayList<Match> ans = new ArrayList<Match>(0);
         User[] users = UserFB.getAllUsers();
         Match temp = null;
         for(int i = 0; i<users.length; i++){
-            if((temp = Match.isMatch(users[i])) != null){
+            if((temp = isMatch(users[i])) != null){
                 double myLat = ProfileActivity.getCurrentUser().getLat();
                 double myLon = ProfileActivity.getCurrentUser().getLon();
                 double theirLat = users[i].getLat();
@@ -86,6 +93,8 @@ public class Match {
                 if(distFrom(theirLat,theirLon,myLat,myLon) < maxDistance){
                     ProfileActivity.currentUser.addMatch(temp);
                     ans.add(temp);
+                } else{
+                    temp.sames.set(i, Boolean.FALSE);
                 }
             }
         }

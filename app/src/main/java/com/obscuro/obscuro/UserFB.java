@@ -105,6 +105,7 @@ public class UserFB {
         Log.d("TEST","CALLED SETUP");
         try {
             currentUser = UserFB.findUserByID(currentUID);
+            ProfileActivity.ob1.setText(currentUser.getObscuros().get(0));
             ProfileActivity.obscures.setText("Obscuros: ");
             welcome.setText("Logged in as: "+ currentUser.getUsername());
         } catch(Exception e){

@@ -48,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
     static User currentUser;
     static String currentUID;
     static TextView welcome, obscures;
+    static EditText ob1;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     private LocationRequest mLocationRequest;
@@ -64,12 +65,16 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
         obscures = (TextView)findViewById(R.id.obscuros_textview);
 
         tag = (EditText)findViewById(R.id.tagOne);
+        tag.setEnabled(false);
+        ((Button)findViewById(R.id.edit_button)).setText("Edit");
+        ob1 =tag;
         loggedInAs = (TextView)findViewById((R.id.loggedInAs));
         logBox = (TextView)findViewById((R.id.logBox));
         ping = (Button)findViewById((R.id.pingButton));
         logout = (Button)findViewById((R.id.logout));
 
         loggedInAs.setText("Logged in as: No oNe");
+        tag.setText("");
 
 
 
@@ -126,7 +131,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     public void onPing(View v){
-        ArrayList<Match> matches = Match.findAllMatches();
+        ArrayList matches = new Match().findAllMatches();
         if(matches.size()>0){
             notification(matches.size(), matches);
         }
