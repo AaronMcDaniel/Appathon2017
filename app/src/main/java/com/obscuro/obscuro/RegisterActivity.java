@@ -49,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void register(View v) {
         if (verifyUsernameLength() && verifyPasswordLength() && verifyConfirmPassword()) {
             Log.d(TAG, "register: Attempt");
-            mAuth.createUserWithEmailAndPassword(username.getText().toString(), password.getText().toString())
+            mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
