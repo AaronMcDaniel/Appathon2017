@@ -72,7 +72,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
         loggedInAs.setText("Logged in as: No oNe");
 
 
-        notification();
+
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -126,10 +126,9 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     public void onPing(View v){
-        ArrayList matches = Match.findAllMatches();
+        ArrayList<Match> matches = Match.findAllMatches();
         if(matches.size()>0){
-            //notify? or something
-            //notify? or something
+            notification(matches.size(), matches);
         }
         logBox.setText("" + (lat + lon));
     }
@@ -253,15 +252,15 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
 
     }
 
-    private void notification(){
+    private void notification(int numberMatches, ArrayList<Match> matches){
         Log.d("test", "notification: ");
         // The id of the channel.
         String CHANNEL_ID = "my_channel_01";
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this, CHANNEL_ID)
                         .setSmallIcon(R.drawable.cast_ic_notification_0)
-                        .setContentTitle("You got a hit!")
-                        .setContentText("Obscuro");
+                        .setContentTitle("You got " + numberMatches + " hit/s!")
+                        .setContentText("Obscuros: " + matches.get(0).toString());
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, ProfileActivity.class);
         mBuilder.setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
@@ -288,5 +287,10 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
 // notification. For example, to cancel the notification, you can pass its ID
 // number to NotificationManager.cancel().
         mNotificationManager.notify(3456, mBuilder.build());
+    }
+
+
+    private void populateMatch(View v){
+
     }
 }

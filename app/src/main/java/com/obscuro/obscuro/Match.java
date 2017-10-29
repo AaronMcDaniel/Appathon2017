@@ -39,6 +39,39 @@ public class Match {
         return ans;
     }
 
+    public User getMatchedWith(){
+        return matchedWith;
+    }
+
+    public void setMatchedWith(User user){
+        matchedWith = user;
+    }
+
+    public ArrayList<String> getTags(){
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags){
+        this.tags = tags;
+    }
+
+    public ArrayList<Boolean> getSames(){
+        return sames;
+    }
+
+    public void setSames(ArrayList<Boolean> sames){
+        this.sames = sames;
+    }
+
+    public Boolean getIsCurrent(){
+        return getIsCurrent();
+    }
+
+    public void setIsCurrent(Boolean isCurrent){
+        this.isCurrent = isCurrent;
+    }
+
+
     public static ArrayList<Match> findAllMatches(){//finds all matches. Gets from updated users.
         double maxDistance = 0.1;
         ArrayList<Match> ans = new ArrayList<Match>(0);
@@ -78,6 +111,20 @@ public class Match {
     }
     public void sendNotification(){
 
+    }
+
+    public String toString(){
+        String sum = "";
+        for(int i = 0; i < sames.size(); i++){
+            if(sames.get(i)){
+                sum += tags.get(i);
+                if(i < sames.size() - 1){
+                    sum += " ";
+                }
+            }
+
+        }
+        return sum;
     }
 
 }
