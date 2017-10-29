@@ -115,7 +115,7 @@ public class User {
     }
 
     public void setLat(double la){this.lat=la;}
-    public double getLat(){return lon;}
+    public double getLat(){return lat;}
     public void setLon(double lo){this.lon=lo;}
     public double getLon(){return lon;}
     public void setObscuros(ArrayList<String> ob){obscuros = ob;}

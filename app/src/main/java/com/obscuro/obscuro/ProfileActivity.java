@@ -114,6 +114,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
 
     public void onLogout(View v){
         //end location tracking
+        Log.d("Test", "onLogout: logged out");
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
     }
@@ -207,10 +208,17 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
             if (mLastLocation != null) {
                 lat = mLastLocation.getLatitude();
                 lon = mLastLocation.getLongitude();
+                try {
+                    currentUser.setLat(lat);
+                    currentUser.setLon(lon);
+                    UserFB.updateCurrentUser();
+                }catch(Exception e){
+                    Log.d("userLatLong", "onLocationChanged: ");
+                }
                 Log.d("Test", "onUpdate: " + lat + lon);
             }
         }catch (SecurityException se){
-            Log.d("Security", "onLocationChanged: Updating one");;
+            Log.d("Security", "onLocationChanged: Updating one");
         }
     }
 
