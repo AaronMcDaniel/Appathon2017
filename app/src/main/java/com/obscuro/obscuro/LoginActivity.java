@@ -1,7 +1,10 @@
 package com.obscuro.obscuro;
 
 
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -31,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
         username = (EditText)findViewById(R.id.username_editText);
         password = (EditText)findViewById(R.id.password_editText);
         mAuth = FirebaseAuth.getInstance();
+
+
     }
 
     public void login(View v) {
