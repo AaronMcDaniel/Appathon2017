@@ -156,9 +156,16 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
                     viewMatch(findViewById(v.getId()));
                 }
             });
-            buttDetails.setText((i*2)+1);
-            buttDetails.setText(temp.toString());
+            String text = "";
+            ArrayList<String> ob = ans.get(i).getTags();
+            for(int j = 0; j< ob.size(); j++){
+                text+=""+ob.get(j)+"\n\t";
+            }
+            text="\t"+text+ ans.get(i).getDistance()+" Meters away";
+            buttDetails.setId((i*2)+1);
+            buttDetails.setText(text);
             buttDetails.setTextSize(20f);
+            buttDetails.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
             buttDetails.setVisibility(View.GONE);
             Log.d("TEST", "updateMatches: Added a button");
             layout.addView(butt);

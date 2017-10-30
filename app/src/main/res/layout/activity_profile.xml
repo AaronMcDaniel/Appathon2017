@@ -80,7 +80,17 @@
             android:id="@+id/layout_in_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button"
+                android:visibility="gone"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="331dp" />
+        </LinearLayout>>
     </ScrollView>
 
     <Button

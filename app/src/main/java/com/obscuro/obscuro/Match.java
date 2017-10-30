@@ -96,7 +96,7 @@ public class Match {
 
 
     public ArrayList<Match> findAllMatches(){//finds all matches. Gets from updated users.
-        double maxDistance = 100.0;
+        double maxDistance = 5000.0;
         ArrayList<Match> ans = new ArrayList<Match>(0);
         ProfileActivity.currentUser.setMatches(ans);
         UserFB.updateCurrentUser();
@@ -145,25 +145,30 @@ public class Match {
 
     public String toString(){
         String sum = "";
-        for(int i = 0; i < sames.size(); i++){
-            if(sames.get(i)){
-                sum += tags.get(i);
+        try {
+            for (int i = 0; i < sames.size(); i++) {
+                if (sames.get(i)) {
+                    sum += tags.get(i);
                     sum += "\n";
-            }
+                }
 
+            }
+            double myLat = ProfileActivity.getCurrentUser().getLat();
+            double myLon = ProfileActivity.getCurrentUser().getLon();
+            double theirLat = this.getMatchedWith().getLat();
+            double theirLon = this.getMatchedWith().getLon();
+            Location theirs = new Location("");
+            theirs.setLatitude(theirLat);
+            theirs.setLongitude(theirLon);
+            Location mine = new Location("");
+            mine.setLongitude(myLon);
+            mine.setLatitude(myLat);
+            sum += Match.distFrom(theirs, mine);
+            return sum;
+        } catch(Exception e){
+            return "no matches";
         }
-        double myLat = ProfileActivity.getCurrentUser().getLat();
-        double myLon = ProfileActivity.getCurrentUser().getLon();
-        double theirLat = this.getMatchedWith().getLat();
-        double theirLon = this.getMatchedWith().getLon();
-        Location theirs = new Location("");
-        theirs.setLatitude(theirLat);
-        theirs.setLongitude(theirLon);
-        Location mine = new Location("");
-        mine.setLongitude(myLon);
-        mine.setLatitude(myLat);
-        sum+= Match.distFrom(theirs, mine);
-        return sum;
     }
+
 
 }
